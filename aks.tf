@@ -7,12 +7,13 @@
 resource "azurerm_kubernetes_cluster" "tfe" {
   count = var.create_aks_cluster ? 1 : 0
 
+  private_cluster_enabled = true
   name                = "${var.friendly_name_prefix}-tfe-aks"
   resource_group_name = local.resource_group_name
   location            = var.location
   dns_prefix          = "${var.friendly_name_prefix}-tfe-aks"
   kubernetes_version  = var.aks_kubernetes_version
-
+  
   default_node_pool {
     name           = var.aks_default_node_pool_name
     node_count     = var.aks_default_node_pool_node_count
@@ -20,7 +21,7 @@ resource "azurerm_kubernetes_cluster" "tfe" {
     os_sku         = "Ubuntu"
     vnet_subnet_id = var.aks_subnet_id
     zones          = var.availability_zones
-
+    temporary_name_for_rotation = "tfetemp"
     upgrade_settings {
       max_surge = var.aks_default_node_pool_max_surge
     }
@@ -34,9 +35,9 @@ resource "azurerm_kubernetes_cluster" "tfe" {
     outbound_type     = "loadBalancer"
   }
 
-  api_server_access_profile {
-    authorized_ip_ranges = var.aks_api_server_authorized_ip_ranges
-  }
+  #api_server_access_profile {
+  #  authorized_ip_ranges = var.aks_api_server_authorized_ip_ranges
+  #}
 
   workload_identity_enabled         = var.aks_workload_identity_enabled
   oidc_issuer_enabled               = var.aks_oidc_issuer_enabled
@@ -68,6 +69,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "tfe" {
   node_count            = var.aks_tfe_node_pool_node_count
   vnet_subnet_id        = var.aks_subnet_id
   zones                 = var.availability_zones
+  temporary_name_for_rotation ="tfepooltemp"
   mode                  = "User"
   os_type               = "Linux"
 

@@ -98,7 +98,7 @@ output "tfe_redis_password_base64" {
 }
 
 output "tfe_redis_use_auth" {
-  value       = try(azurerm_redis_cache.tfe.redis_configuration[0].enable_authentication, null)
+  value       = try(azurerm_redis_cache.tfe.redis_configuration[0].authentication_enabled, null)
   description = "Boolean indicating whether TFE is using authentication to access the Redis cache."
 }
 

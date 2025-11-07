@@ -49,7 +49,7 @@ variable "common_tags" {
 variable "availability_zones" {
   type        = set(string)
   description = "List of Azure availability zones to spread TFE resources across."
-  default     = ["1", "2", "3"]
+  default     = ["1","3"]
 
   validation {
     condition     = alltrue([for az in var.availability_zones : contains(["1", "2", "3"], az)])
@@ -271,7 +271,7 @@ variable "aks_default_node_pool_node_count" {
 variable "aks_default_node_pool_vm_size" {
   type        = string
   description = "Size of the virtual machines within the AKS default node pool."
-  default     = "Standard_D8ds_v5"
+  default     = "Standard_D16ds_v5"
 }
 
 variable "aks_default_node_pool_max_surge" {
@@ -295,7 +295,7 @@ variable "aks_service_cidr" {
 variable "aks_dns_service_ip" {
   type        = string
   description = "The IP address assigned to the AKS internal DNS service."
-  default     = "10.1.0.10"
+  default     = "10.0.20.10"
 }
 
 variable "aks_workload_identity_enabled" {
@@ -337,7 +337,7 @@ variable "aks_tfe_node_pool_node_count" {
 variable "aks_tfe_node_pool_vm_size" {
   type        = string
   description = "Size of virtual machines in the AKS TFE node pool. Only valid when `create_aks_tfe_node_pool` is `true`."
-  default     = "Standard_D8ds_v5"
+  default     = "Standard_D16ds_v5"
 }
 
 #------------------------------------------------------------------------------
@@ -458,7 +458,7 @@ variable "storage_account_public_network_access_enabled" {
 variable "storage_account_ip_allow" {
   type        = list(string)
   description = "List of CIDRs allowed to access TFE Storage Account."
-  default     = []
+  default     = ["10.0.0.0/16"]
 }
 
 variable "storage_account_replication_type" {

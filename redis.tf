@@ -11,7 +11,7 @@ resource "azurerm_redis_cache" "tfe" {
   capacity                      = var.redis_capacity
   family                        = var.redis_family
   sku_name                      = var.redis_sku_name
-  enable_non_ssl_port           = var.redis_enable_non_ssl_port
+  non_ssl_port_enabled          = var.redis_enable_non_ssl_port
   minimum_tls_version           = var.redis_min_tls_version
   public_network_access_enabled = false
   subnet_id                     = var.create_redis_private_endpoint ? null : var.redis_subnet_id
@@ -19,7 +19,7 @@ resource "azurerm_redis_cache" "tfe" {
   zones                         = var.availability_zones
 
   redis_configuration {
-    enable_authentication = var.redis_enable_authentication
+    authentication_enabled = var.redis_enable_authentication
     rdb_backup_enabled    = false
   }
 

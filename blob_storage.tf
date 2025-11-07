@@ -14,7 +14,7 @@ resource "azurerm_storage_account" "tfe" {
   account_tier                    = "Standard"
   access_tier                     = "Hot"
   account_replication_type        = var.storage_account_replication_type
-  enable_https_traffic_only       = true
+  https_traffic_only_enabled      = true
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = var.storage_account_public_network_access_enabled
   allow_nested_items_to_be_public = false
@@ -39,7 +39,7 @@ resource "azurerm_storage_account_network_rules" "tfe" {
   storage_account_id         = azurerm_storage_account.tfe[0].id
   default_action             = "Deny"
   ip_rules                   = var.storage_account_ip_allow
-  virtual_network_subnet_ids = compact([var.aks_subnet_id, var.secondary_aks_subnet_id])
+  virtual_network_subnet_ids = compact([var.aks_subnet_id])
   bypass                     = ["AzureServices"]
 }
 

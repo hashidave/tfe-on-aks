@@ -35,7 +35,7 @@ locals {
 
     # Redis settings
     tfe_redis_host     = try("${azurerm_redis_cache.tfe.hostname}:6380", "")
-    tfe_redis_use_auth = try(azurerm_redis_cache.tfe.redis_configuration[0].enable_authentication, "")
+    tfe_redis_use_auth = try(azurerm_redis_cache.tfe.redis_configuration[0].authentication_enabled, "")
     tfe_redis_use_tls  = true
   }
 }
